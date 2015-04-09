@@ -50,12 +50,12 @@ public class ObtainKeyTask extends DefaultTask {
 					.execute();
 
 			System.out.println("Your access token is " + Constants.ANSI_HIHGLIGHT_CODE + tokenResponse.getAccessToken() +
-					Constants.ANSI_RESET_CODE + ". Store it as environment variable (" +
+					Constants.ANSI_RESET_CODE + ". Store it as environment variable (e.g. " +
 					Constants.ANSI_HIHGLIGHT_CODE + Constants.DEFAULT_GDRIVE_ACCESS_TOKEN_VAR + Constants.ANSI_RESET_CODE +
 					") for future use. " +
 					"It will expire in " + tokenResponse.getExpiresInSeconds() + " seconds.");
 			System.out.println("Your refresh token is " + Constants.ANSI_HIHGLIGHT_CODE + tokenResponse.getRefreshToken() +
-					Constants.ANSI_RESET_CODE + ". Store it as environment variable (" +
+					Constants.ANSI_RESET_CODE + ". Store it as environment variable (e.g. " +
 					Constants.ANSI_HIHGLIGHT_CODE + Constants.DEFAULT_GDRIVE_REFRESH_TOKEN_VAR + Constants.ANSI_RESET_CODE +
 					") for future use.");
 		} catch (IOException ioException) {
