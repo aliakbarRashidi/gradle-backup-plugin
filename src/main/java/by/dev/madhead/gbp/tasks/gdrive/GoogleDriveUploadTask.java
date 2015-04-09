@@ -92,7 +92,7 @@ public class GoogleDriveUploadTask extends DefaultTask {
 
 	public void setRefreshTokenVar(String refreshTokenVar) {
 		this.refreshTokenVar = refreshTokenVar;
-		this.refreshToken = System.getenv(refreshToken);
+		this.refreshToken = System.getenv(refreshTokenVar);
 	}
 
 	public void setArchive(File archive) {
