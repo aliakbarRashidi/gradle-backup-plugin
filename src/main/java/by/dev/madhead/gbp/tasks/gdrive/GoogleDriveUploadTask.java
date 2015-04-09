@@ -1,4 +1,4 @@
-package by.dev.madhead.gbp.tasks;
+package by.dev.madhead.gbp.tasks.gdrive;
 
 import by.dev.madhead.gbp.util.Constants;
 import com.google.api.client.googleapis.auth.oauth2.GoogleCredential;
@@ -19,7 +19,7 @@ import org.gradle.api.tasks.TaskExecutionException;
 import java.io.File;
 import java.io.IOException;
 
-public class UploadToGoogleDriveTask extends DefaultTask {
+public class GoogleDriveUploadTask extends DefaultTask {
 	private String clientIdVar = Constants.DEFAULT_GDRIVE_CLIENT_ID_ENV_VAR;
 	private String clientId = System.getenv(clientIdVar);
 	private String clientSecretVar = Constants.DEFAULT_GDRIVE_CLIENT_SECRET_ENV_VAR;

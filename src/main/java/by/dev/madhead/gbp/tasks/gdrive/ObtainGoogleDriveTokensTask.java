@@ -1,4 +1,4 @@
-package by.dev.madhead.gbp.tasks;
+package by.dev.madhead.gbp.tasks.gdrive;
 
 import by.dev.madhead.gbp.util.Constants;
 import com.google.api.client.googleapis.auth.oauth2.GoogleAuthorizationCodeFlow;
@@ -16,7 +16,7 @@ import java.io.Console;
 import java.io.IOException;
 import java.util.Arrays;
 
-public class ObtainKeyTask extends DefaultTask {
+public class ObtainGoogleDriveTokensTask extends DefaultTask {
 	private final String REDIRECT_URI = "urn:ietf:wg:oauth:2.0:oob";
 
 	private String clientIdVar = Constants.DEFAULT_GDRIVE_CLIENT_ID_ENV_VAR;
