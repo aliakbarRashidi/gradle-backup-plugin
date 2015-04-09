@@ -5,7 +5,7 @@ sourceCompatibility = JavaVersion.VERSION_1_7
 targetCompatibility = JavaVersion.VERSION_1_7
 
 group = 'by.dev.madhead'
-version = '1.0.0'
+version = '1.0.0-SNAPSHOT'
 
 repositories {
 	mavenCentral()
