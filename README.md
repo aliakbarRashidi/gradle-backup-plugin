@@ -3,7 +3,7 @@
 [![Dependency Status](https://www.versioneye.com/user/projects/552801ed2ced4f5816000c53/badge.svg?style=flat)](https://www.versioneye.com/user/projects/552801ed2ced4f5816000c53)
 [ ![Download latest version](https://api.bintray.com/packages/madhead/gradle-plugins/gradle-backup-plugin/images/download.svg) ](https://bintray.com/madhead/gradle-plugins/gradle-backup-plugin/_latestVersion)
 
-This [Gradle](http://gradle.org/) plugin allows you to automate you small non-production backups and upload them into various clouds.
+This [Gradle](http://gradle.org/) plugin allows you to automate small non-production backups and upload them into various clouds.
 
 Currently it can upload things to:
 
