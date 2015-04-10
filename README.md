@@ -13,6 +13,22 @@ You can create [ZIP](https://gradle.org/docs/current/dsl/org.gradle.api.tasks.bu
 
 ## Usage
 
+The plugin is available via [jCenter](https://bintray.com/bintray/jcenter) repository. To use it, add the following lines into your `build.gradle`:
+
+	buildscript {
+		repositories {
+			jcenter()
+		}
+
+		dependencies {
+			classpath 'by.dev.madhead:gradle-backup-plugin:1.0.1'
+		}
+	}
+
+	apply plugin: 'by.dev.madhead.gradle-backup-plugin'
+
+This will enhance your buildscript with the task types from the plugin.
+
 ### Creating archive
 
 First, you need to create a backup archive. It can be ZIP or TAR (they are very simple to create with Gradle), or custom archive (in this case you might need to write a few lines of your own code). For example, creating TAR archive:
@@ -38,9 +54,9 @@ Create a project with any name and ID you like. After that, open it and go to `A
 
 After the app is created, store it's `Client ID` and `Client Secret` in environment variables on your system. By default the plugin expects them to be named `GRADLE_BACKUP_PLUGIN_GDRIVE_CLIENT_ID` and `GRADLE_BACKUP_PLUGIN_GDRIVE_CLIENT_SECRET`, but it is configrable.
 
-Before talking to Google Drive API, you need to grant access token to the app you've created. The plugin contains a task named `obtainGoogleDriveTokens` which will help you. The task can be optionally configured with the names of environment variables which store `Client ID` and `Client Secret`:
+Before talking to Google Drive API, you need to grant access token to the app you've created. The plugin contains a class named `ObtainGoogleDriveTokensTask` which will help you. This task can be optionally configured with the names of environment variables which store `Client ID` and `Client Secret`:
 
-	obtainGoogleDriveTokens {
+	task obtainGoogleDriveTokens(type: by.dev.madhead.gbp.tasks.gdrive.ObtainGoogleDriveTokensTask) {
 		clientIdVar = 'CALIBRE_BACKUP_GDRIVE_CLIENT_ID'
 		clientSecretVar = 'CALIBRE_BACKUP_GDRIVE_CLIENT_SECRET'
 	}
