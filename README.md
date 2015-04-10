@@ -1,4 +1,4 @@
-# gradle-backup-plugin
+# gradle-backup-plugin [![Build Status](https://travis-ci.org/madhead/gradle-backup-plugin.svg?branch=master)](https://travis-ci.org/madhead/gradle-backup-plugin)
 
 This [Gradle](http://gradle.org/) plugin allows you to automate you small non-production backups and upload them into various clouds.
 
