@@ -1,11 +1,11 @@
-apply plugin: 'groovy'
-apply plugin: 'maven'
+plugins {
+	id 'groovy'
+	id 'maven-publish'
+	id 'com.jfrog.bintray' version '1.1'
+}
 
 sourceCompatibility = JavaVersion.VERSION_1_7
 targetCompatibility = JavaVersion.VERSION_1_7
-
-group = 'by.dev.madhead'
-version = '1.0.0-SNAPSHOT'
 
 repositories {
 	mavenCentral()
@@ -15,4 +15,46 @@ dependencies {
 	compile localGroovy()
 	compile gradleApi()
 	compile 'com.google.apis:google-api-services-drive:v2-rev165-1.20.0'
+}
+
+tasks.withType(Javadoc) {
+	options.links('http://docs.oracle.com/javase/7/docs/api/', 'http://docs.groovy-lang.org/latest/html/api/')
+}
+
+task javadocJar(type: Jar, dependsOn: javadoc) {
+	classifier = 'javadoc'
+	from 'build/docs/javadoc'
+}
+
+task sourcesJar(type: Jar) {
+	classifier = 'sources'
+	from sourceSets.main.allSource
+}
+
+publishing {
+	publications {
+		main(MavenPublication) {
+			from components.java
+
+			artifact sourcesJar
+			artifact javadocJar
+		}
+	}
+}
+
+bintray {
+	user = System.getenv('GRADLE_BACKUP_PLUGIN_BINTRAY_USER')
+	key = System.getenv('GRADLE_BACKUP_PLUGIN_BINTRAY_KEY')
+	publications = ['main']
+	publish = true
+
+	pkg {
+		repo = 'gradle-plugins'
+		name = 'gradle-backup-plugin'
+		websiteUrl = 'https://github.com/madhead/gradle-backup-plugin'
+		issueTrackerUrl = 'https://github.com/madhead/gradle-backup-plugin/issues'
+		vcsUrl = 'https://github.com/madhead/gradle-backup-plugin.git'
+
+		licenses = ['Apache-2.0']
+	}
 }
