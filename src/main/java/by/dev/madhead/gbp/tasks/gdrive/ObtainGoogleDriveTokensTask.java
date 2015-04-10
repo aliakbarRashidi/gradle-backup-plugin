@@ -31,6 +31,9 @@ import java.io.Console;
 import java.io.IOException;
 import java.util.Arrays;
 
+/**
+ * Helper task for obtaining access and refresh tokens for Google Drive.
+ */
 public class ObtainGoogleDriveTokensTask extends DefaultTask {
 	private final String REDIRECT_URI = "urn:ietf:wg:oauth:2.0:oob";
 
@@ -39,6 +42,9 @@ public class ObtainGoogleDriveTokensTask extends DefaultTask {
 	private String clientSecretVar = Constants.DEFAULT_GDRIVE_CLIENT_SECRET_ENV_VAR;
 	private String clientSecret = System.getenv(clientSecretVar);
 
+	/**
+	 * Initiates Google Drive tokens obtaining flow.
+	 */
 	@TaskAction
 	public void run() {
 		final Console console = System.console();
@@ -64,25 +70,40 @@ public class ObtainGoogleDriveTokensTask extends DefaultTask {
 					.setRedirectUri(REDIRECT_URI)
 					.execute();
 
-			System.out.println("Your access token is " + Constants.ANSI_HIHGLIGHT_CODE + tokenResponse.getAccessToken() +
-					Constants.ANSI_RESET_CODE + ". Store it as environment variable (e.g. " +
-					Constants.ANSI_HIHGLIGHT_CODE + Constants.DEFAULT_GDRIVE_ACCESS_TOKEN_VAR + Constants.ANSI_RESET_CODE +
-					") for future use. " +
-					"It will expire in " + tokenResponse.getExpiresInSeconds() + " seconds.");
-			System.out.println("Your refresh token is " + Constants.ANSI_HIHGLIGHT_CODE + tokenResponse.getRefreshToken() +
-					Constants.ANSI_RESET_CODE + ". Store it as environment variable (e.g. " +
-					Constants.ANSI_HIHGLIGHT_CODE + Constants.DEFAULT_GDRIVE_REFRESH_TOKEN_VAR + Constants.ANSI_RESET_CODE +
+			System.out.println("Your access token is " +
+					Constants.ANSI_HIHGLIGHT_CODE + tokenResponse.getAccessToken() + Constants.ANSI_RESET_CODE +
+					". Store it as environment variable (e.g. " +
+					Constants.ANSI_HIHGLIGHT_CODE + Constants.DEFAULT_GDRIVE_ACCESS_TOKEN_VAR + Constants
+					.ANSI_RESET_CODE +
+					") for future use. It will expire in " + tokenResponse.getExpiresInSeconds() + " seconds.");
+			System.out.println("Your refresh token is "
+					+ Constants.ANSI_HIHGLIGHT_CODE + tokenResponse.getRefreshToken() + Constants.ANSI_RESET_CODE +
+					". Store it as environment variable (e.g. " +
+					Constants.ANSI_HIHGLIGHT_CODE + Constants.DEFAULT_GDRIVE_REFRESH_TOKEN_VAR + Constants
+					.ANSI_RESET_CODE +
 					") for future use.");
 		} catch (IOException ioException) {
 			throw new TaskExecutionException(this, ioException);
 		}
 	}
 
+	/**
+	 * Sets name of environment variable which stores Google Drive client ID.
+	 *
+	 * @param clientIdVar
+	 * 		name of environment variable which stores Google Drive client ID.
+	 */
 	public void setClientIdVar(String clientIdVar) {
 		this.clientIdVar = clientIdVar;
 		this.clientId = System.getenv(clientIdVar);
 	}
 
+	/**
+	 * Sets name of environment variable which stores Google Drive client secret.
+	 *
+	 * @param clientSecretVar
+	 * 		name of environment variable which stores Google Drive client secret.
+	 */
 	public void setClientSecretVar(String clientSecretVar) {
 		this.clientSecretVar = clientSecretVar;
 		this.clientSecret = System.getenv(clientSecretVar);

@@ -34,6 +34,9 @@ import org.gradle.api.tasks.TaskExecutionException;
 import java.io.File;
 import java.io.IOException;
 
+/**
+ * Task for uploading things (potentially, your backups) to Google Drive.
+ */
 public class GoogleDriveUploadTask extends DefaultTask {
 	private String clientIdVar = Constants.DEFAULT_GDRIVE_CLIENT_ID_ENV_VAR;
 	private String clientId = System.getenv(clientIdVar);
@@ -44,12 +47,14 @@ public class GoogleDriveUploadTask extends DefaultTask {
 	private String refreshTokenVar = Constants.DEFAULT_GDRIVE_REFRESH_TOKEN_VAR;
 	private String refreshToken = System.getenv(refreshTokenVar);
 
-	// TODO: add validation
 	private File archive;
 	private String mimeType = MediaType.ANY_TYPE.toString();
 
+	/**
+	 * Uploads {@link #setArchive(File) specified file} to Google Drive.
+	 */
 	@TaskAction
-	public void run() throws IOException {
+	public void run() {
 		try {
 			final HttpTransport transport = new NetHttpTransport();
 			final JsonFactory jsonFactory = new JacksonFactory();
@@ -79,7 +84,8 @@ public class GoogleDriveUploadTask extends DefaultTask {
 				public void progressChanged(MediaHttpUploader u) throws IOException {
 					final double progress = (double) u.getNumBytesUploaded() / content.getLength();
 
-					System.out.printf("\r[%-50.50s] %.2f%%", Strings.repeat("#", (int) (progress * 50)), progress * 100);
+					System.out.printf("\r[%-50.50s] %.2f%%",
+							Strings.repeat("#", (int) (progress * 50)), progress * 100);
 					System.out.flush();
 				}
 			});
@@ -90,30 +96,66 @@ public class GoogleDriveUploadTask extends DefaultTask {
 		}
 	}
 
+	/**
+	 * Sets name of environment variable which stores Google Drive client ID.
+	 *
+	 * @param clientIdVar
+	 * 		name of environment variable which stores Google Drive client ID.
+	 */
 	public void setClientIdVar(String clientIdVar) {
 		this.clientIdVar = clientIdVar;
 		this.clientId = System.getenv(clientIdVar);
 	}
 
+	/**
+	 * Sets name of environment variable which stores Google Drive client secret.
+	 *
+	 * @param clientSecretVar
+	 * 		name of environment variable which stores Google Drive client secret.
+	 */
 	public void setClientSecretVar(String clientSecretVar) {
 		this.clientSecretVar = clientSecretVar;
 		this.clientSecret = System.getenv(clientSecretVar);
 	}
 
+	/**
+	 * Sets name of environment variable which stores Google Drive access token.
+	 *
+	 * @param accessTokenVar
+	 * 		name of environment variable which stores Google Drive access token.
+	 */
 	public void setAccessTokenVar(String accessTokenVar) {
 		this.accessTokenVar = accessTokenVar;
 		this.accessToken = System.getenv(accessTokenVar);
 	}
 
+	/**
+	 * Sets name of environment variable which stores Google Drive refresh token.
+	 *
+	 * @param refreshTokenVar
+	 * 		name of environment variable which stores Google Drive refresh token.
+	 */
 	public void setRefreshTokenVar(String refreshTokenVar) {
 		this.refreshTokenVar = refreshTokenVar;
 		this.refreshToken = System.getenv(refreshTokenVar);
 	}
 
+	/**
+	 * Sets file for uploading to Google Drive.
+	 *
+	 * @param archive
+	 * 		file for uploading to Google Drive.
+	 */
 	public void setArchive(File archive) {
 		this.archive = archive;
 	}
 
+	/**
+	 * Sets MIME type of uploaded thing.
+	 *
+	 * @param mimeType
+	 * 		MIME type of uploaded thing.
+	 */
 	public void setMimeType(String mimeType) {
 		this.mimeType = mimeType;
 	}

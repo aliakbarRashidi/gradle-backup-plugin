@@ -33,7 +33,11 @@ dependencies {
 }
 
 tasks.withType(Javadoc) {
-	options.links('http://docs.oracle.com/javase/7/docs/api/', 'http://docs.groovy-lang.org/latest/html/api/')
+	options.links(
+			'http://docs.oracle.com/javase/7/docs/api/',
+			'http://docs.groovy-lang.org/latest/html/api/',
+			'https://gradle.org/docs/current/javadoc/'
+	)
 }
 
 jar {

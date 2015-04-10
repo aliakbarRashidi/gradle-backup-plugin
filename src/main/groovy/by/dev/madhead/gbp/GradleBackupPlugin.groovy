@@ -19,7 +19,14 @@ import by.dev.madhead.gbp.tasks.gdrive.ObtainGoogleDriveTokensTask
 import org.gradle.api.Plugin
 import org.gradle.api.Project
 
+/**
+ * This plugin allows you to automate backups and upload them into various clouds.
+ */
 class GradleBackupPlugin implements Plugin<Project> {
+
+	/**
+	 * {@inheritDoc}
+	 */
 	@Override
 	void apply(Project project) {
 		project.configure(project) {
