@@ -1,7 +1,7 @@
 # gradle-backup-plugin
 [![Build Status](https://travis-ci.org/madhead/gradle-backup-plugin.svg?branch=master)](https://travis-ci.org/madhead/gradle-backup-plugin)
 [![Dependency Status](https://www.versioneye.com/user/projects/552801ed2ced4f5816000c53/badge.svg?style=flat)](https://www.versioneye.com/user/projects/552801ed2ced4f5816000c53)
-[ ![Download latest version](https://api.bintray.com/packages/madhead/gradle-plugins/gradle-backup-plugin/images/download.svg) ](https://bintray.com/madhead/gradle-plugins/gradle-backup-plugin/_latestVersion)
+[![Download latest version](https://api.bintray.com/packages/madhead/gradle-plugins/gradle-backup-plugin/images/download.svg) ](https://bintray.com/madhead/gradle-plugins/gradle-backup-plugin/_latestVersion)
 
 This [Gradle](http://gradle.org/) plugin allows you to automate small non-production backups and upload them into various clouds.
 
@@ -27,7 +27,23 @@ The plugin is available via [jCenter](https://bintray.com/bintray/jcenter) repos
 
 	apply plugin: 'by.dev.madhead.gradle-backup-plugin'
 
-This will enhance your buildscript with the task types from the plugin.
+Latest snapshots are avaiable at [OJO](https://oss.jfrog.org). To use them, add the following:
+
+	buildscript {
+		repositories {
+			maven {
+				url 'http://oss.jfrog.org/oss-snapshot-local'
+			}
+		}
+
+		dependencies {
+			classpath 'by.dev.madhead:gradle-backup-plugin:1.0.2-SNAPSHOT'
+		}
+	}
+
+	apply plugin: 'by.dev.madhead.gradle-backup-plugin'
+
+After that your buildscript will be enhanced with the task types from the plugin.
 
 ### Creating archive
 
