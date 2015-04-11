@@ -4,4 +4,4 @@ jdk:
   - oraclejdk8
   - openjdk7
 install: ./gradlew build
-script: ./gradlew artifactoryPublish
+script: [ "${TRAVIS_PULL_REQUEST}" = "false" ] && ./gradlew artifactoryPublish || true
