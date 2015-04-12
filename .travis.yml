@@ -3,5 +3,8 @@ jdk:
   - oraclejdk7
   - oraclejdk8
   - openjdk7
+
 install: ./gradlew build
-script: [ "${TRAVIS_PULL_REQUEST}" = "false" ] && ./gradlew artifactoryPublish || true
+
+# Only upload artifacts from upstream, build on Oracle JDK 7
+script: '[ "${TRAVIS_PULL_REQUEST}" = "false" ] && [ "${JAVA_HOME}" = "/usr/lib/jvm/java-7-oracle" ] && ./gradlew artifactoryPublish || true'
