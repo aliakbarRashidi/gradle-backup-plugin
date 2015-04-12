@@ -25,6 +25,8 @@ import com.google.api.client.http.javanet.NetHttpTransport;
 import com.google.api.client.json.JsonFactory;
 import com.google.api.client.json.jackson2.JacksonFactory;
 import com.google.api.services.drive.Drive;
+import com.google.api.services.drive.model.FileList;
+import com.google.api.services.drive.model.ParentReference;
 import com.google.common.base.Strings;
 import com.google.common.net.MediaType;
 import org.gradle.api.DefaultTask;
@@ -33,6 +35,7 @@ import org.gradle.api.tasks.TaskExecutionException;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.Arrays;
 
 /**
  * Task for uploading things (potentially, your backups) to Google Drive.
@@ -49,6 +52,7 @@ public class GoogleDriveUploadTask extends DefaultTask {
 
 	private File archive;
 	private String mimeType = MediaType.ANY_TYPE.toString();
+	private String[] path;
 
 	/**
 	 * Uploads {@link #setArchive(File) specified file} to Google Drive.
@@ -56,22 +60,16 @@ public class GoogleDriveUploadTask extends DefaultTask {
 	@TaskAction
 	public void run() {
 		try {
-			final HttpTransport transport = new NetHttpTransport();
-			final JsonFactory jsonFactory = new JacksonFactory();
-			final GoogleCredential credentials = new GoogleCredential.Builder()
-					.setTransport(transport)
-					.setJsonFactory(jsonFactory)
-					.setClientSecrets(clientId, clientSecret)
-					.build()
-					.setAccessToken(accessToken)
-					.setRefreshToken(refreshToken);
-			final Drive drive = new Drive.Builder(transport, jsonFactory, credentials)
-					.setApplicationName("backups")
-					.build();
+			final Drive drive = constructDrive();
+
+			final com.google.api.services.drive.model.File parent = locateParent(drive);
 
 			final com.google.api.services.drive.model.File descriptor = new com.google.api.services.drive.model.File();
 			final FileContent content = new FileContent(mimeType, archive);
 
+			if (null != parent) {
+				descriptor.setParents(Arrays.<ParentReference>asList(new ParentReference().setId(parent.getId())));
+			}
 			descriptor.setMimeType(content.getType());
 			descriptor.setTitle(content.getFile().getName());
 
@@ -94,6 +92,57 @@ public class GoogleDriveUploadTask extends DefaultTask {
 		} catch (Exception e) {
 			throw new TaskExecutionException(this, e);
 		}
+	}
+
+	private Drive constructDrive() {
+		final HttpTransport transport = new NetHttpTransport();
+		final JsonFactory jsonFactory = new JacksonFactory();
+		final GoogleCredential credentials = new GoogleCredential.Builder()
+				.setTransport(transport)
+				.setJsonFactory(jsonFactory)
+				.setClientSecrets(clientId, clientSecret)
+				.build()
+				.setAccessToken(accessToken)
+				.setRefreshToken(refreshToken);
+		return new Drive.Builder(transport, jsonFactory, credentials)
+				.setApplicationName("backups")
+				.build();
+	}
+
+	private com.google.api.services.drive.model.File locateParent(final Drive drive) throws IOException {
+		com.google.api.services.drive.model.File result = null;
+
+		if ((path != null) && (path.length > 0)) {
+			for (int i = 0; i < path.length; i++) {
+				final StringBuilder query = new StringBuilder();
+
+				query.append("(title='");
+				query.append(path[i]);
+				query.append("')");
+
+				if (null != result) {
+					query.append(" and ");
+					query.append("('");
+					query.append(result.getId());
+					query.append("' in parents)");
+				}
+
+				final FileList files = drive.files().list().setQ(query.toString()).execute();
+
+				if ((null == files) || (null == files.getItems()) || (files.getItems().isEmpty())) {
+					throw new IllegalArgumentException("Invalid Google Drive path. Forgot to create folders?");
+				}
+
+				result = files.getItems().get(0);
+			}
+		}
+
+		if ((null != result) && (!"application/vnd.google-apps.folder".equals(result.getMimeType()))) {
+			throw new IllegalArgumentException("Invalid Google Drive path. Destination exists, but it's not a folder" +
+					".");
+		}
+
+		return result;
 	}
 
 	/**
@@ -158,5 +207,16 @@ public class GoogleDriveUploadTask extends DefaultTask {
 	 */
 	public void setMimeType(String mimeType) {
 		this.mimeType = mimeType;
+	}
+
+	/**
+	 * Sets destination path inside Google Drive starting from the root, like ["backups", "projects",
+	 * "myBackupedProject"].
+	 *
+	 * @param path
+	 * 		destination path inside the Drive.
+	 */
+	public void setPath(String[] path) {
+		this.path = path;
 	}
 }
