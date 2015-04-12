@@ -21,7 +21,7 @@ The plugin is available via [jCenter](https://bintray.com/bintray/jcenter) repos
 		}
 
 		dependencies {
-			classpath 'by.dev.madhead:gradle-backup-plugin:1.0.1'
+			classpath 'by.dev.madhead:gradle-backup-plugin:1.0.2'
 		}
 	}
 
@@ -37,7 +37,7 @@ Latest snapshots are avaiable at [OJO](https://oss.jfrog.org). To use them, add 
 		}
 
 		dependencies {
-			classpath 'by.dev.madhead:gradle-backup-plugin:1.0.2-SNAPSHOT'
+			classpath 'by.dev.madhead:gradle-backup-plugin:1.0.3-SNAPSHOT'
 		}
 	}
 
