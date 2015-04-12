@@ -87,13 +87,17 @@ Now all you need to do is to configure `upload` task:
 		accessTokenVar = 'CALIBRE_BACKUP_GDRIVE_ACCESS_TOKEN'
 		refreshTokenVar = 'CALIBRE_BACKUP_GDRIVE_REFRESH_TOKEN'
 
-		dependsOn createTarball
-		mimeType = 'application/x-gtar'
-		archive = createTarball.archivePath
+		dependsOn createTarball                 // 1
+		mimeType = 'application/x-gtar'         // 2
+		archive = createTarball.archivePath     // 3
+		path = ['Backups', 'Calibre']           // 4
 	}
+
+1. Tolds Gradle to execute `createTarball` before uploading the results.
+2. Helps Google Drive to recognize what is being uploaded. You'll be able to work with archive in the cloud without downloading if you have apps for that MIME type installed.
+3. Specifies the file to upload.
+4. Specifies destination path inside Google Drive starting from the root to put the archive.
 
 That's all. Run `gradle backup` and you'll get your backup in a cloud:
 
 ![image](https://cloud.githubusercontent.com/assets/577360/7076097/a7a127d8-df0f-11e4-831b-ae9eed8bc4ae.png)
-
-The files are uploaded in the root of your Drive.
