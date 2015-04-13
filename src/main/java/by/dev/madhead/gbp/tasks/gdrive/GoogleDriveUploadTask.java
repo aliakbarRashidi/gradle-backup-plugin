@@ -27,6 +27,7 @@ import com.google.api.client.json.jackson2.JacksonFactory;
 import com.google.api.services.drive.Drive;
 import com.google.api.services.drive.model.FileList;
 import com.google.api.services.drive.model.ParentReference;
+import com.google.common.base.Preconditions;
 import com.google.common.base.Strings;
 import com.google.common.net.MediaType;
 import org.gradle.api.DefaultTask;
@@ -60,6 +61,14 @@ public class GoogleDriveUploadTask extends DefaultTask {
 	@TaskAction
 	public void run() {
 		try {
+			Preconditions.checkNotNull(this.clientId, "Google Drive client ID must not be null");
+			Preconditions.checkNotNull(this.clientSecret, "Google Drive client secret must not be null");
+			Preconditions.checkNotNull(this.accessToken, "Google Drive access token must not be null");
+			Preconditions.checkNotNull(this.refreshToken, "Google Drive refresh token must not be null");
+			Preconditions.checkNotNull(this.archive, "Archive must not be null");
+			Preconditions.checkArgument(this.archive.exists(), "Archive must exist");
+			Preconditions.checkArgument(this.archive.isFile(), "Archive must be a file");
+
 			final Drive drive = constructDrive();
 
 			final com.google.api.services.drive.model.File parent = locateParent(drive);
@@ -153,7 +162,9 @@ public class GoogleDriveUploadTask extends DefaultTask {
 	 */
 	public void setClientIdVar(String clientIdVar) {
 		this.clientIdVar = clientIdVar;
+		Preconditions.checkNotNull(this.clientIdVar, "Google Drive client ID environment variable must not be null");
 		this.clientId = System.getenv(clientIdVar);
+		Preconditions.checkNotNull(this.clientId, "Google Drive client ID must not be null");
 	}
 
 	/**
@@ -164,7 +175,9 @@ public class GoogleDriveUploadTask extends DefaultTask {
 	 */
 	public void setClientSecretVar(String clientSecretVar) {
 		this.clientSecretVar = clientSecretVar;
+		Preconditions.checkNotNull(this.clientSecretVar, "Google Drive client secret environment variable must not be null");
 		this.clientSecret = System.getenv(clientSecretVar);
+		Preconditions.checkNotNull(this.clientSecret, "Google Drive client secret must not be null");
 	}
 
 	/**
@@ -175,7 +188,9 @@ public class GoogleDriveUploadTask extends DefaultTask {
 	 */
 	public void setAccessTokenVar(String accessTokenVar) {
 		this.accessTokenVar = accessTokenVar;
+		Preconditions.checkNotNull(this.accessTokenVar, "Google Drive access token environment variable must not be null");
 		this.accessToken = System.getenv(accessTokenVar);
+		Preconditions.checkNotNull(this.accessToken, "Google Drive access token must not be null");
 	}
 
 	/**
@@ -186,7 +201,9 @@ public class GoogleDriveUploadTask extends DefaultTask {
 	 */
 	public void setRefreshTokenVar(String refreshTokenVar) {
 		this.refreshTokenVar = refreshTokenVar;
+		Preconditions.checkNotNull(this.refreshTokenVar, "Google Drive refresh token environment variable must not be null");
 		this.refreshToken = System.getenv(refreshTokenVar);
+		Preconditions.checkNotNull(this.refreshToken, "Google Drive refresh token must not be null");
 	}
 
 	/**
@@ -207,6 +224,7 @@ public class GoogleDriveUploadTask extends DefaultTask {
 	 */
 	public void setMimeType(String mimeType) {
 		this.mimeType = mimeType;
+		Preconditions.checkNotNull(this.mimeType, "MIME type must not be null");
 	}
 
 	/**
@@ -214,7 +232,7 @@ public class GoogleDriveUploadTask extends DefaultTask {
 	 * "myBackupedProject"].
 	 *
 	 * @param path
-	 * 		destination path inside the Drive.
+	 * 		destination path inside the Drive or null if you want to place files in the root.
 	 */
 	public void setPath(String[] path) {
 		this.path = path;

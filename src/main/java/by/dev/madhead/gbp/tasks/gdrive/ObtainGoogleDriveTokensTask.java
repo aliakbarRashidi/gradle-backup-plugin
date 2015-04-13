@@ -23,6 +23,7 @@ import com.google.api.client.http.javanet.NetHttpTransport;
 import com.google.api.client.json.JsonFactory;
 import com.google.api.client.json.jackson2.JacksonFactory;
 import com.google.api.services.drive.DriveScopes;
+import com.google.common.base.Preconditions;
 import org.gradle.api.DefaultTask;
 import org.gradle.api.tasks.TaskAction;
 import org.gradle.api.tasks.TaskExecutionException;
@@ -55,6 +56,9 @@ public class ObtainGoogleDriveTokensTask extends DefaultTask {
 		}
 
 		try {
+			Preconditions.checkNotNull(this.clientId, "Google Drive client ID must not be null");
+			Preconditions.checkNotNull(this.clientSecret, "Google Drive client secret must not be null");
+
 			final HttpTransport transport = new NetHttpTransport();
 			final JsonFactory jsonFactory = new JacksonFactory();
 			final GoogleAuthorizationCodeFlow flow = new GoogleAuthorizationCodeFlow
@@ -95,7 +99,9 @@ public class ObtainGoogleDriveTokensTask extends DefaultTask {
 	 */
 	public void setClientIdVar(String clientIdVar) {
 		this.clientIdVar = clientIdVar;
+		Preconditions.checkNotNull(this.clientIdVar, "Google Drive client ID environment variable must not be null");
 		this.clientId = System.getenv(clientIdVar);
+		Preconditions.checkNotNull(this.clientId, "Google Drive client ID must not be null");
 	}
 
 	/**
@@ -106,6 +112,8 @@ public class ObtainGoogleDriveTokensTask extends DefaultTask {
 	 */
 	public void setClientSecretVar(String clientSecretVar) {
 		this.clientSecretVar = clientSecretVar;
+		Preconditions.checkNotNull(this.clientSecretVar, "Google Drive client secret environment variable must not be null");
 		this.clientSecret = System.getenv(clientSecretVar);
+		Preconditions.checkNotNull(this.clientSecret, "Google Drive client secret must not be null");
 	}
 }
