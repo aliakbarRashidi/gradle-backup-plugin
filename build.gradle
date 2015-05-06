@@ -30,7 +30,7 @@ repositories {
 dependencies {
 	compile localGroovy()
 	compile gradleApi()
-	compile 'com.google.apis:google-api-services-drive:v2-rev166-1.20.0'
+	compile 'com.google.apis:google-api-services-drive:v2-rev168-1.20.0'
 }
 
 tasks.withType(Javadoc) {
