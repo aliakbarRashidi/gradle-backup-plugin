@@ -9,7 +9,7 @@ Currently it can upload things to:
 
 + [Google Drive](https://www.google.com/drive/)
 
-You can create [ZIP](https://gradle.org/docs/current/dsl/org.gradle.api.tasks.bundling.Zip.html) and [TAR](https://gradle.org/docs/current/dsl/org.gradle.api.tasks.bundling.Tar.html) archives using awesome Gradle's out-of-the features! And if you're really paranoid you can encrypt them with your favourite Java encryption library before the uploading.
+You can create [ZIP](https://gradle.org/docs/current/dsl/org.gradle.api.tasks.bundling.Zip.html) and [TAR](https://gradle.org/docs/current/dsl/org.gradle.api.tasks.bundling.Tar.html) archives using awesome Gradle's out-of-the-box features! And if you're really paranoid you can encrypt them with your favourite Java encryption library before the uploading.
 
 ## Usage
 
