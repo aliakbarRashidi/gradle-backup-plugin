@@ -18,6 +18,7 @@ plugins {
 	id 'maven-publish'
 	id 'com.jfrog.bintray' version '1.2'
 	id 'com.jfrog.artifactory' version '3.1.0'
+	id 'net.researchgate.release' version '2.2.2'
 }
 
 sourceCompatibility = JavaVersion.VERSION_1_7
