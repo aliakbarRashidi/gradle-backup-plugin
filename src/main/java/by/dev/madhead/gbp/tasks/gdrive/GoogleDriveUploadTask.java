@@ -54,6 +54,7 @@ public class GoogleDriveUploadTask extends DefaultTask {
 	private File archive;
 	private String mimeType = MediaType.ANY_TYPE.toString();
 	private String[] path;
+	private boolean listenForUpload = false;
 
 	/**
 	 * Uploads {@link #setArchive(File) specified file} to Google Drive.
@@ -86,16 +87,18 @@ public class GoogleDriveUploadTask extends DefaultTask {
 			final MediaHttpUploader uploader = insert.getMediaHttpUploader();
 
 			uploader.setChunkSize(1 * 1024 * 1024 /* bytes */);
-			uploader.setProgressListener(new MediaHttpUploaderProgressListener() {
-				@Override
-				public void progressChanged(MediaHttpUploader u) throws IOException {
-					final double progress = (double) u.getNumBytesUploaded() / content.getLength();
 
-					System.out.printf("\r[%-50.50s] %.2f%%",
-							Strings.repeat("#", (int) (progress * 50)), progress * 100);
-					System.out.flush();
-				}
-			});
+			if (listenForUpload) {
+				uploader.setProgressListener(new MediaHttpUploaderProgressListener() {
+					@Override
+					public void progressChanged(MediaHttpUploader u) throws IOException {
+						final double progress = (double) u.getNumBytesUploaded() / content.getLength();
+
+						System.out.printf("\r[%-50.50s] %.2f%%", Strings.repeat("#", (int) (progress * 50)), progress * 100);
+						System.out.flush();
+					}
+				});
+			}
 
 			insert.execute();
 		} catch (Exception e) {
@@ -236,5 +239,15 @@ public class GoogleDriveUploadTask extends DefaultTask {
 	 */
 	public void setPath(String[] path) {
 		this.path = path;
+	}
+
+	/**
+	 * Sets whether to listen for upload process and print progressbar or not.
+	 *
+	 * @param listenForUpload
+	 * 		whether to listen for upload process and print progressbar or not.
+	 */
+	public void setListenForUpload(boolean listenForUpload) {
+		this.listenForUpload = listenForUpload;
 	}
 }
