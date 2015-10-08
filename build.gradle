@@ -103,3 +103,7 @@ artifactoryPublish {
 		System.getenv('GRADLE_BACKUP_PLUGIN_ARTIFACTORY_PUBLISH')?.toBoolean()
 	}
 }
+
+task wrapper(type: Wrapper) {
+	gradleVersion = '2.7'
+}
