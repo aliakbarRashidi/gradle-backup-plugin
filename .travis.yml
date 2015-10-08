@@ -7,4 +7,4 @@ jdk:
 install: ./gradlew build
 
 # Only upload artifacts from upstream's master build on Oracle JDK 7
-script: '[ "${TRAVIS_PULL_REQUEST}" = "false" ] && [ "${TRAVIS_BRANCH}" = "master" ] && [ "${JAVA_HOME}" = "/usr/lib/jvm/java-7-oracle" ] && ./gradlew artifactoryPublish || true'
+script: '[ "${TRAVIS_PULL_REQUEST}" = "false" ] && [ "${TRAVIS_BRANCH}" = "master" ] && [ "${JAVA_HOME}" = "/usr/lib/jvm/java-7-oracle" ] && ./gradlew generatePomFileForMainPublication artifactoryPublish || true'
