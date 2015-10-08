@@ -21,11 +21,9 @@ The plugin is available via [jCenter](https://bintray.com/bintray/jcenter) repos
 		}
 
 		dependencies {
-			classpath 'by.dev.madhead:gradle-backup-plugin:1.0.2'
+			classpath 'by.dev.madhead:gradle-backup-plugin:latest.release'
 		}
 	}
-
-	apply plugin: 'by.dev.madhead.gradle-backup-plugin'
 
 Latest snapshots are avaiable at [OJO](https://oss.jfrog.org). To use them, add the following:
 
@@ -37,11 +35,9 @@ Latest snapshots are avaiable at [OJO](https://oss.jfrog.org). To use them, add 
 		}
 
 		dependencies {
-			classpath 'by.dev.madhead:gradle-backup-plugin:1.0.3-SNAPSHOT'
+			classpath 'by.dev.madhead:gradle-backup-plugin:1.0.5-SNAPSHOT'
 		}
 	}
-
-	apply plugin: 'by.dev.madhead.gradle-backup-plugin'
 
 After that your buildscript will be enhanced with the task types from the plugin.
 
@@ -73,8 +69,8 @@ After the app is created, store it's `Client ID` and `Client Secret` in environm
 Before talking to Google Drive API, you need to grant access token to the app you've created. The plugin contains a class named `ObtainGoogleDriveTokensTask` which will help you. This task can be optionally configured with the names of environment variables which store `Client ID` and `Client Secret`:
 
 	task obtainGoogleDriveTokens(type: by.dev.madhead.gbp.tasks.gdrive.ObtainGoogleDriveTokensTask) {
-		clientIdVar = 'CALIBRE_BACKUP_GDRIVE_CLIENT_ID'
-		clientSecretVar = 'CALIBRE_BACKUP_GDRIVE_CLIENT_SECRET'
+		clientId = System.getenv('CALIBRE_BACKUP_GDRIVE_CLIENT_ID')
+		clientSecretVar = System.getenv('CALIBRE_BACKUP_GDRIVE_CLIENT_SECRET')
 	}
 
 Run `gradle obtainGoogleDriveTokens`, follow the instructions and you'll get `Access Token` and `Refresh Token` which are used to communicate the Google Drive API. Store them in environment variables too.
@@ -82,21 +78,23 @@ Run `gradle obtainGoogleDriveTokens`, follow the instructions and you'll get `Ac
 Now all you need to do is to configure `upload` task:
 
 	task backup(type: by.dev.madhead.gbp.tasks.gdrive.GoogleDriveUploadTask) {
-		clientIdVar = 'CALIBRE_BACKUP_GDRIVE_CLIENT_ID'
-		clientSecretVar = 'CALIBRE_BACKUP_GDRIVE_CLIENT_SECRET'
-		accessTokenVar = 'CALIBRE_BACKUP_GDRIVE_ACCESS_TOKEN'
-		refreshTokenVar = 'CALIBRE_BACKUP_GDRIVE_REFRESH_TOKEN'
+		clientId = System.getenv('CALIBRE_BACKUP_GDRIVE_CLIENT_ID')
+		clientSecret = System.getenv('CALIBRE_BACKUP_GDRIVE_CLIENT_SECRET')
+		accessToken = System.getenv('CALIBRE_BACKUP_GDRIVE_ACCESS_TOKEN')
+		refreshToken = System.getenv('CALIBRE_BACKUP_GDRIVE_REFRESH_TOKEN')
 
 		dependsOn createTarball                 // 1
 		mimeType = 'application/x-gtar'         // 2
 		archive = createTarball.archivePath     // 3
 		path = ['Backups', 'Calibre']           // 4
+		listenForUpload = true                  // 5
 	}
 
 1. Tolds Gradle to execute `createTarball` before uploading the results.
 2. Helps Google Drive to recognize what is being uploaded. You'll be able to work with archive in the cloud without downloading if you have apps for that MIME type installed.
 3. Specifies the file to upload.
 4. Specifies destination path inside Google Drive starting from the root to put the archive.
+5. Enables drawing text-based progress bar tracking the upload process.
 
 That's all. Run `gradle backup` and you'll get your backup in a cloud:
 
