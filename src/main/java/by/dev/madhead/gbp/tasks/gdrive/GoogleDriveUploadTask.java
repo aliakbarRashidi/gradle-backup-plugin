@@ -42,14 +42,10 @@ import java.util.Arrays;
  * Task for uploading things (potentially, your backups) to Google Drive.
  */
 public class GoogleDriveUploadTask extends DefaultTask {
-	private String clientIdVar = Constants.DEFAULT_GDRIVE_CLIENT_ID_ENV_VAR;
-	private String clientId = System.getenv(clientIdVar);
-	private String clientSecretVar = Constants.DEFAULT_GDRIVE_CLIENT_SECRET_ENV_VAR;
-	private String clientSecret = System.getenv(clientSecretVar);
-	private String accessTokenVar = Constants.DEFAULT_GDRIVE_ACCESS_TOKEN_VAR;
-	private String accessToken = System.getenv(accessTokenVar);
-	private String refreshTokenVar = Constants.DEFAULT_GDRIVE_REFRESH_TOKEN_VAR;
-	private String refreshToken = System.getenv(refreshTokenVar);
+	private String clientId;
+	private String clientSecret;
+	private String accessToken;
+	private String refreshToken;
 
 	private File archive;
 	private String mimeType = MediaType.ANY_TYPE.toString();
@@ -158,55 +154,47 @@ public class GoogleDriveUploadTask extends DefaultTask {
 	}
 
 	/**
-	 * Sets name of environment variable which stores Google Drive client ID.
+	 * Sets Google Drive client ID.
 	 *
-	 * @param clientIdVar
-	 * 		name of environment variable which stores Google Drive client ID.
+	 * @param clientId
+	 * 		Google Drive client ID.
 	 */
-	public void setClientIdVar(String clientIdVar) {
-		this.clientIdVar = clientIdVar;
-		Preconditions.checkNotNull(this.clientIdVar, "Google Drive client ID environment variable must not be null");
-		this.clientId = System.getenv(clientIdVar);
-		Preconditions.checkNotNull(this.clientId, "Google Drive client ID must not be null");
+	public void setClientId(String clientId) {
+		Preconditions.checkNotNull(clientId, "Google Drive client ID must not be null");
+		this.clientId = clientId;
 	}
 
 	/**
-	 * Sets name of environment variable which stores Google Drive client secret.
+	 * Sets Google Drive client secret.
 	 *
-	 * @param clientSecretVar
-	 * 		name of environment variable which stores Google Drive client secret.
+	 * @param clientSecret
+	 * 		Google Drive client secret.
 	 */
-	public void setClientSecretVar(String clientSecretVar) {
-		this.clientSecretVar = clientSecretVar;
-		Preconditions.checkNotNull(this.clientSecretVar, "Google Drive client secret environment variable must not be null");
-		this.clientSecret = System.getenv(clientSecretVar);
-		Preconditions.checkNotNull(this.clientSecret, "Google Drive client secret must not be null");
+	public void setClientSecret(String clientSecret) {
+		Preconditions.checkNotNull(clientSecret, "Google Drive client secret must not be null");
+		this.clientSecret = clientSecret;
 	}
 
 	/**
-	 * Sets name of environment variable which stores Google Drive access token.
+	 * Sets Google Drive access token.
 	 *
-	 * @param accessTokenVar
-	 * 		name of environment variable which stores Google Drive access token.
+	 * @param accessToken
+	 * 		Google Drive access token.
 	 */
-	public void setAccessTokenVar(String accessTokenVar) {
-		this.accessTokenVar = accessTokenVar;
-		Preconditions.checkNotNull(this.accessTokenVar, "Google Drive access token environment variable must not be null");
-		this.accessToken = System.getenv(accessTokenVar);
-		Preconditions.checkNotNull(this.accessToken, "Google Drive access token must not be null");
+	public void setAccessToken(String accessToken) {
+		Preconditions.checkNotNull(accessToken, "Google Drive access token must not be null");
+		this.accessToken = accessToken;
 	}
 
 	/**
-	 * Sets name of environment variable which stores Google Drive refresh token.
+	 * Sets Google Drive refresh token.
 	 *
-	 * @param refreshTokenVar
-	 * 		name of environment variable which stores Google Drive refresh token.
+	 * @param refreshToken
+	 * 		Google Drive refresh token.
 	 */
-	public void setRefreshTokenVar(String refreshTokenVar) {
-		this.refreshTokenVar = refreshTokenVar;
-		Preconditions.checkNotNull(this.refreshTokenVar, "Google Drive refresh token environment variable must not be null");
-		this.refreshToken = System.getenv(refreshTokenVar);
-		Preconditions.checkNotNull(this.refreshToken, "Google Drive refresh token must not be null");
+	public void setRefreshToken(String refreshToken) {
+		Preconditions.checkNotNull(refreshToken, "Google Drive refresh token must not be null");
+		this.refreshToken = refreshToken;
 	}
 
 	/**

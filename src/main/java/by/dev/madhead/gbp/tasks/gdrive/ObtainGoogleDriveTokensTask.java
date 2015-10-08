@@ -38,10 +38,8 @@ import java.util.Arrays;
 public class ObtainGoogleDriveTokensTask extends DefaultTask {
 	private final String REDIRECT_URI = "urn:ietf:wg:oauth:2.0:oob";
 
-	private String clientIdVar = Constants.DEFAULT_GDRIVE_CLIENT_ID_ENV_VAR;
-	private String clientId = System.getenv(clientIdVar);
-	private String clientSecretVar = Constants.DEFAULT_GDRIVE_CLIENT_SECRET_ENV_VAR;
-	private String clientSecret = System.getenv(clientSecretVar);
+	private String clientId;
+	private String clientSecret;
 
 	/**
 	 * Initiates Google Drive tokens obtaining flow.
@@ -76,44 +74,34 @@ public class ObtainGoogleDriveTokensTask extends DefaultTask {
 
 			System.out.println("Your access token is " +
 					Constants.ANSI_HIHGLIGHT_CODE + tokenResponse.getAccessToken() + Constants.ANSI_RESET_CODE +
-					". Store it as environment variable (e.g. " +
-					Constants.ANSI_HIHGLIGHT_CODE + Constants.DEFAULT_GDRIVE_ACCESS_TOKEN_VAR + Constants
-					.ANSI_RESET_CODE +
-					") for future use. It will expire in " + tokenResponse.getExpiresInSeconds() + " seconds.");
+					". Store it somewhere for future use. It will expire in " + tokenResponse.getExpiresInSeconds() + " seconds.");
 			System.out.println("Your refresh token is "
 					+ Constants.ANSI_HIHGLIGHT_CODE + tokenResponse.getRefreshToken() + Constants.ANSI_RESET_CODE +
-					". Store it as environment variable (e.g. " +
-					Constants.ANSI_HIHGLIGHT_CODE + Constants.DEFAULT_GDRIVE_REFRESH_TOKEN_VAR + Constants
-					.ANSI_RESET_CODE +
-					") for future use.");
+					". Store it somewhere for future use.");
 		} catch (IOException ioException) {
 			throw new TaskExecutionException(this, ioException);
 		}
 	}
 
 	/**
-	 * Sets name of environment variable which stores Google Drive client ID.
+	 * Sets Google Drive client ID.
 	 *
-	 * @param clientIdVar
-	 * 		name of environment variable which stores Google Drive client ID.
+	 * @param clientId
+	 * 		Google Drive client ID.
 	 */
-	public void setClientIdVar(String clientIdVar) {
-		this.clientIdVar = clientIdVar;
-		Preconditions.checkNotNull(this.clientIdVar, "Google Drive client ID environment variable must not be null");
-		this.clientId = System.getenv(clientIdVar);
-		Preconditions.checkNotNull(this.clientId, "Google Drive client ID must not be null");
+	public void setClientId(String clientId) {
+		Preconditions.checkNotNull(clientId, "Google Drive client ID must not be null");
+		this.clientId = clientId;
 	}
 
 	/**
-	 * Sets name of environment variable which stores Google Drive client secret.
+	 * Sets Google Drive client secret.
 	 *
-	 * @param clientSecretVar
-	 * 		name of environment variable which stores Google Drive client secret.
+	 * @param clientSecret
+	 * 		Google Drive client secret.
 	 */
-	public void setClientSecretVar(String clientSecretVar) {
-		this.clientSecretVar = clientSecretVar;
-		Preconditions.checkNotNull(this.clientSecretVar, "Google Drive client secret environment variable must not be null");
-		this.clientSecret = System.getenv(clientSecretVar);
-		Preconditions.checkNotNull(this.clientSecret, "Google Drive client secret must not be null");
+	public void setClientSecret(String clientSecret) {
+		Preconditions.checkNotNull(clientSecret, "Google Drive client secret must not be null");
+		this.clientSecret = clientSecret;
 	}
 }

@@ -28,24 +28,4 @@ public interface Constants {
 	 * This ANSI escape code is used to set "highlighted" foreground color.
 	 */
 	String ANSI_HIHGLIGHT_CODE = "\u001B[33m";
-
-	/**
-	 * Default name of environment variable with Google Drive client ID.
-	 */
-	String DEFAULT_GDRIVE_CLIENT_ID_ENV_VAR = "GRADLE_BACKUP_PLUGIN_GDRIVE_CLIENT_ID";
-
-	/**
-	 * Default name of environment variable with Google Drive client secret.
-	 */
-	String DEFAULT_GDRIVE_CLIENT_SECRET_ENV_VAR = "GRADLE_BACKUP_PLUGIN_GDRIVE_CLIENT_SECRET";
-
-	/**
-	 * Default name of environment variable with Google Drive access token.
-	 */
-	String DEFAULT_GDRIVE_ACCESS_TOKEN_VAR = "GRADLE_BACKUP_PLUGIN_GDRIVE_ACCESS_TOKEN";
-
-	/**
-	 * Default name of environment variable with Google Drive refresh token.
-	 */
-	String DEFAULT_GDRIVE_REFRESH_TOKEN_VAR = "GRADLE_BACKUP_PLUGIN_GDRIVE_REFRESH_TOKEN";
 }
