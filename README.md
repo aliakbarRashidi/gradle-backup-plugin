@@ -64,13 +64,13 @@ You'll need to create your own project in [Google Developers Console](https://co
 
 Create a project with any name and ID you like. After that, open it and go to `APIs & auth` → `APIs`. Search for `Drive API` and enable it. Then, navigate to `APIs & auth` → `Credentials` and create new OAuth 2.0 app (`Create new Client ID`). Choose `Installed application` with type `Other`. You might be asked to fill `Consent screen` before being able to create the app. That's ok, data on that screen will be seen only by you.
 
-After the app is created, store it's `Client ID` and `Client Secret` in environment variables on your system. By default the plugin expects them to be named `GRADLE_BACKUP_PLUGIN_GDRIVE_CLIENT_ID` and `GRADLE_BACKUP_PLUGIN_GDRIVE_CLIENT_SECRET`, but it is configrable.
+After the app is created, store it's `Client ID` and `Client Secret` in environment variables on your system for future access with `System.getenv()`. You might choose another way to store them and pass to the tasks.
 
-Before talking to Google Drive API, you need to grant access token to the app you've created. The plugin contains a class named `ObtainGoogleDriveTokensTask` which will help you. This task can be optionally configured with the names of environment variables which store `Client ID` and `Client Secret`:
+Before talking to Google Drive API, you need to grant access token to the app you've created. The plugin contains a class named `ObtainGoogleDriveTokensTask` which will help you:
 
 	task obtainGoogleDriveTokens(type: by.dev.madhead.gbp.tasks.gdrive.ObtainGoogleDriveTokensTask) {
 		clientId = System.getenv('CALIBRE_BACKUP_GDRIVE_CLIENT_ID')
-		clientSecretVar = System.getenv('CALIBRE_BACKUP_GDRIVE_CLIENT_SECRET')
+		clientSecret = System.getenv('CALIBRE_BACKUP_GDRIVE_CLIENT_SECRET')
 	}
 
 Run `gradle obtainGoogleDriveTokens`, follow the instructions and you'll get `Access Token` and `Refresh Token` which are used to communicate the Google Drive API. Store them in environment variables too.
