@@ -15,7 +15,6 @@
  */
 package by.dev.madhead.gbp.tasks.gdrive;
 
-import by.dev.madhead.gbp.util.Constants;
 import com.google.api.client.googleapis.auth.oauth2.GoogleCredential;
 import com.google.api.client.googleapis.media.MediaHttpUploader;
 import com.google.api.client.googleapis.media.MediaHttpUploaderProgressListener;
