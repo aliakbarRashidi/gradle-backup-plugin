@@ -15,7 +15,6 @@
  */
 package by.dev.madhead.gbp.tasks.gdrive;
 
-import by.dev.madhead.gbp.util.Constants;
 import com.google.api.client.googleapis.auth.oauth2.GoogleAuthorizationCodeFlow;
 import com.google.api.client.googleapis.auth.oauth2.GoogleTokenResponse;
 import com.google.api.client.http.HttpTransport;
@@ -24,6 +23,7 @@ import com.google.api.client.json.JsonFactory;
 import com.google.api.client.json.jackson2.JacksonFactory;
 import com.google.api.services.drive.DriveScopes;
 import com.google.common.base.Preconditions;
+import org.fusesource.jansi.Ansi;
 import org.gradle.api.DefaultTask;
 import org.gradle.api.tasks.TaskAction;
 import org.gradle.api.tasks.TaskExecutionException;
@@ -64,20 +64,32 @@ public class ObtainGoogleDriveTokensTask extends DefaultTask {
 					.build();
 			final String url = flow.newAuthorizationUrl().setRedirectUri(REDIRECT_URI).build();
 
-			System.out.println("Navigate to the following url: " + Constants.ANSI_HIHGLIGHT_CODE + url +
-					Constants.ANSI_RESET_CODE + ", and then paste the authorization code here:");
+			System.out.println((new Ansi()).
+					a("Navigate to the following url: ").
+					fg(Ansi.Color.YELLOW).
+					a(url).
+					reset().
+					a(", and then paste the authorization code here:"));
 
 			final String authorizationCode = console.readLine().trim();
 			final GoogleTokenResponse tokenResponse = flow.newTokenRequest(authorizationCode)
 					.setRedirectUri(REDIRECT_URI)
 					.execute();
 
-			System.out.println("Your access token is " +
-					Constants.ANSI_HIHGLIGHT_CODE + tokenResponse.getAccessToken() + Constants.ANSI_RESET_CODE +
-					". Store it somewhere for future use. It will expire in " + tokenResponse.getExpiresInSeconds() + " seconds.");
-			System.out.println("Your refresh token is "
-					+ Constants.ANSI_HIHGLIGHT_CODE + tokenResponse.getRefreshToken() + Constants.ANSI_RESET_CODE +
-					". Store it somewhere for future use.");
+			System.out.println((new Ansi()).
+					a("Your access token is ").
+					fg(Ansi.Color.YELLOW).
+					a(tokenResponse.getAccessToken()).
+					reset().
+					a(". Store it somewhere for future use. It will expire in ").
+					a(tokenResponse.getExpiresInSeconds()).
+					a(" seconds"));
+			System.out.println((new Ansi()).
+					a("Your refresh token is ").
+					fg(Ansi.Color.YELLOW).
+					a(tokenResponse.getRefreshToken()).
+					reset().
+					a(". Store it somewhere for future use."));
 		} catch (IOException ioException) {
 			throw new TaskExecutionException(this, ioException);
 		}

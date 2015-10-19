@@ -32,6 +32,7 @@ dependencies {
 	compile localGroovy()
 	compile gradleApi()
 	compile 'com.google.apis:google-api-services-drive:latest.release'
+	compile 'org.fusesource.jansi:jansi:latest.release'
 }
 
 tasks.withType(Javadoc) {
