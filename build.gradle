@@ -16,9 +16,9 @@
 plugins {
 	id 'groovy'
 	id 'maven-publish'
-	id 'com.jfrog.bintray' version '1.2'
-	id 'com.jfrog.artifactory' version '3.1.0'
-	id 'net.researchgate.release' version '2.2.2'
+	id 'com.jfrog.bintray' version '1.5'
+	id 'com.jfrog.artifactory' version '3.2.0'
+	id 'net.researchgate.release' version '2.3.4'
 }
 
 sourceCompatibility = JavaVersion.VERSION_1_7
@@ -32,7 +32,7 @@ dependencies {
 	compile localGroovy()
 	compile gradleApi()
 	compile 'com.google.apis:google-api-services-drive:v3-rev1-1.19.1'
-	compile 'org.fusesource.jansi:jansi:latest.release'
+	compile 'org.fusesource.jansi:jansi:1.11'
 }
 
 tasks.withType(Javadoc) {
