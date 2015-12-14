@@ -33,6 +33,7 @@ dependencies {
 	compile gradleApi()
 	compile 'com.google.apis:google-api-services-drive:v3-rev1-1.19.1'
 	compile 'org.fusesource.jansi:jansi:1.11'
+	compile 'commons-io:commons-io:2.4'
 }
 
 tasks.withType(Javadoc) {

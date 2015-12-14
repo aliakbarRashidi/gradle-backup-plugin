@@ -28,11 +28,14 @@ import com.google.api.services.drive.model.FileList;
 import com.google.common.base.Preconditions;
 import com.google.common.base.Strings;
 import com.google.common.net.MediaType;
+import org.apache.commons.codec.digest.DigestUtils;
+import org.apache.commons.io.IOUtils;
 import org.gradle.api.DefaultTask;
 import org.gradle.api.tasks.TaskAction;
 import org.gradle.api.tasks.TaskExecutionException;
 
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
 import java.util.Arrays;
 
@@ -76,6 +79,7 @@ public class GoogleDriveUploadTask extends DefaultTask {
 			}
 			descriptor.setMimeType(content.getType());
 			descriptor.setName(content.getFile().getName());
+			descriptor.setDescription(DigestUtils.md5Hex(IOUtils.toByteArray(new FileInputStream(archive))));
 
 			final Drive.Files.Create insert = drive.files().create(descriptor, content);
 			final MediaHttpUploader uploader = insert.getMediaHttpUploader();
