@@ -15,8 +15,11 @@
  */
 package by.dev.madhead.gbp
 
+import by.dev.madhead.gbp.model.GradleBackupPluginExtension
 import org.gradle.api.Plugin
 import org.gradle.api.Project
+import org.gradle.model.Model
+import org.gradle.model.RuleSource
 
 /**
  * This plugin allows you to automate backups and upload them into various clouds.
@@ -28,7 +31,10 @@ class GradleBackupPlugin implements Plugin<Project> {
 	 */
 	@Override
 	void apply(Project project) {
-		project.configure(project) {
-		}
+	}
+
+	static class Rules extends RuleSource {
+		@Model
+		void backup(GradleBackupPluginExtension backupModel) {}
 	}
 }
