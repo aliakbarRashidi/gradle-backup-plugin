@@ -80,7 +80,6 @@ public class GoogleDriveUploadTask extends DefaultTask {
 			}
 			descriptor.setMimeType(content.getType());
 			descriptor.setTitle(content.getFile().getName());
-			descriptor.setDescription(DigestUtils.md5Hex(IOUtils.toByteArray(new FileInputStream(archive))));
 
 			final Drive.Files.Insert insert = drive.files().insert(descriptor, content);
 			final MediaHttpUploader uploader = insert.getMediaHttpUploader();
