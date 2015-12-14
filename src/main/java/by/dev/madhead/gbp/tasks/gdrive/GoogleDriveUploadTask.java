@@ -25,6 +25,7 @@ import com.google.api.client.json.JsonFactory;
 import com.google.api.client.json.jackson2.JacksonFactory;
 import com.google.api.services.drive.Drive;
 import com.google.api.services.drive.model.FileList;
+import com.google.api.services.drive.model.ParentReference;
 import com.google.common.base.Preconditions;
 import com.google.common.base.Strings;
 import com.google.common.net.MediaType;
@@ -75,13 +76,13 @@ public class GoogleDriveUploadTask extends DefaultTask {
 			final FileContent content = new FileContent(mimeType, archive);
 
 			if (null != parent) {
-				descriptor.setParents(Arrays.asList(parent.getId()));
+				descriptor.setParents(Arrays.<ParentReference>asList(new ParentReference().setId(parent.getId())));
 			}
 			descriptor.setMimeType(content.getType());
-			descriptor.setName(content.getFile().getName());
+			descriptor.setTitle(content.getFile().getName());
 			descriptor.setDescription(DigestUtils.md5Hex(IOUtils.toByteArray(new FileInputStream(archive))));
 
-			final Drive.Files.Create insert = drive.files().create(descriptor, content);
+			final Drive.Files.Insert insert = drive.files().insert(descriptor, content);
 			final MediaHttpUploader uploader = insert.getMediaHttpUploader();
 
 			uploader.setChunkSize(1 * 1024 * 1024 /* bytes */);
@@ -126,7 +127,7 @@ public class GoogleDriveUploadTask extends DefaultTask {
 			for (int i = 0; i < path.length; i++) {
 				final StringBuilder query = new StringBuilder();
 
-				query.append("(name='");
+				query.append("(title='");
 				query.append(path[i]);
 				query.append("')");
 
@@ -139,11 +140,11 @@ public class GoogleDriveUploadTask extends DefaultTask {
 
 				final FileList files = drive.files().list().setQ(query.toString()).execute();
 
-				if ((null == files) || (null == files.getFiles()) || (files.getFiles().isEmpty())) {
+				if ((null == files) || (null == files.getItems()) || (files.getItems().isEmpty())) {
 					throw new IllegalArgumentException("Invalid Google Drive path. Forgot to create folders?");
 				}
 
-				result = files.getFiles().get(0);
+				result = files.getItems().get(0);
 			}
 		}
 
