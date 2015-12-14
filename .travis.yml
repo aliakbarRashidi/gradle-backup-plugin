@@ -4,6 +4,11 @@ jdk:
   - oraclejdk8
   - openjdk7
 
+branches:
+  only:
+    - master
+
 install: ./gradlew build
 
 script: .travis/script.sh
+
