@@ -35,8 +35,8 @@ import java.util.Arrays;
 /**
  * Task for uploading things (potentially, your backups) to Google Drive.
  */
-public class GoogleDriveUploadTask extends BaseGoogleDriveTask {
-	private File archive;
+public class GoogleDriveUploadTask extends GoogleDriveTask {
+	private File file;
 	private String mimeType = MediaType.ANY_TYPE.toString();
 	private String[] path;
 	private boolean listenForUpload = false;
@@ -47,19 +47,20 @@ public class GoogleDriveUploadTask extends BaseGoogleDriveTask {
 	}
 
 	/**
-	 * Uploads {@link #setArchive(File) specified file} to Google Drive.
+	 * Uploads {@link #setFile(File) specified file} to Google Drive.
 	 */
 	@TaskAction
 	public void run() {
 		try {
-			Preconditions.checkNotNull(this.archive, "Archive must not be null");
-			Preconditions.checkArgument(this.archive.exists(), "Archive must exist");
-			Preconditions.checkArgument(this.archive.isFile(), "Archive must be a file");
+			Preconditions.checkNotNull(path, "Target directory must be specified");
+			Preconditions.checkNotNull(this.file, "File must not be null");
+			Preconditions.checkArgument(this.file.exists(), "File must exist");
+			Preconditions.checkArgument(this.file.isFile(), "File must be a file");
 
 			final com.google.api.services.drive.model.File parent = locateTargetDirectory(path);
 
 			final com.google.api.services.drive.model.File descriptor = new com.google.api.services.drive.model.File();
-			final FileContent content = new FileContent(mimeType, archive);
+			final FileContent content = new FileContent(mimeType, file);
 
 			if (null != parent) {
 				descriptor.setParents(Arrays.<ParentReference>asList(new ParentReference().setId(parent.getId())));
@@ -93,11 +94,11 @@ public class GoogleDriveUploadTask extends BaseGoogleDriveTask {
 	/**
 	 * Sets file for uploading to Google Drive.
 	 *
-	 * @param archive
+	 * @param file
 	 * 		file for uploading to Google Drive.
 	 */
-	public void setArchive(File archive) {
-		this.archive = archive;
+	public void setFile(File file) {
+		this.file = file;
 	}
 
 	/**

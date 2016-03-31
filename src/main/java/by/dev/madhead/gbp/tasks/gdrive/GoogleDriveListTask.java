@@ -15,9 +15,9 @@
  */
 package by.dev.madhead.gbp.tasks.gdrive;
 
-import com.google.api.client.repackaged.com.google.common.base.Preconditions;
 import com.google.api.services.drive.model.File;
 import com.google.api.services.drive.model.FileList;
+import com.google.common.base.Preconditions;
 import org.gradle.api.tasks.TaskAction;
 import org.gradle.api.tasks.TaskExecutionException;
 import org.gradle.model.internal.registry.ModelRegistry;
@@ -25,9 +25,9 @@ import org.gradle.model.internal.registry.ModelRegistry;
 import javax.inject.Inject;
 
 /**
- * This task lists all the files in a target Google Drive directory.
+ * Lists all the files in a target Google Drive directory.
  */
-public class GoogleDriveListTask extends BaseGoogleDriveTask {
+public class GoogleDriveListTask extends GoogleDriveTask {
 	private static final int FILENAME_COLUMN_WIDTH = 50;
 
 	private String[] path;
@@ -38,7 +38,7 @@ public class GoogleDriveListTask extends BaseGoogleDriveTask {
 	}
 
 	/**
-	 * Lists all the files in target Google Drive directory.
+	 * Lists all the files in a target Google Drive directory.
 	 */
 	@TaskAction
 	public void run() {
