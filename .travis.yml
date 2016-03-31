@@ -11,4 +11,3 @@ branches:
 install: ./gradlew build
 
 script: .travis/script.sh
-
