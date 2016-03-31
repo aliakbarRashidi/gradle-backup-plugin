@@ -35,6 +35,9 @@ dependencies {
 	compile 'org.fusesource.jansi:jansi:1.11'
 }
 
+sourceSets.main.java.srcDirs = []
+sourceSets.main.groovy.srcDirs += ['src/main/java']
+
 tasks.withType(Javadoc) {
 	options.links(
 			'http://docs.oracle.com/javase/7/docs/api/',
