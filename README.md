@@ -38,7 +38,7 @@ Latest snapshots are avaiable at [OJO](https://oss.jfrog.org). To use them, add 
 			classpath 'by.dev.madhead:gradle-backup-plugin:1.0.5-SNAPSHOT'
 		}
 	}
-
+ 
 After that your buildscript will be enhanced with the task types from the plugin.
 
 ### Creating archive
